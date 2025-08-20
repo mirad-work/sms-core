@@ -1,0 +1,14 @@
+{
+  "name": "mirad-sms-examples",
+  "version": "1.0.0",
+  "description": "Examples for Mirad SMS Core",
+  "scripts": {
+    "basic": "npx ts-node basic-usage.ts",
+    "build-parent": "cd .. && npm run build",
+    "examples": "npm run build-parent && npm run basic"
+  },
+  "dependencies": {
+    "ts-node": "10.9.2",
+    "typescript": "5.9.2"
+  }
+}

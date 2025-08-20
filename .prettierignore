@@ -1,0 +1,26 @@
+# Build output
+dist/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.log
+*.lock
+
+# Configuration files that should not be formatted
+package-lock.json
+tsconfig.json
+
+# Environment files
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
