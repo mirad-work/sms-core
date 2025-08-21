@@ -1,6 +1,6 @@
 {
   "name": "@mirad-work/sms-core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A framework-agnostic TypeScript SMS service core with provider abstraction for Iranian SMS providers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -65,7 +65,14 @@
   "bugs": {
     "url": "https://github.com/mirad-work/sms-core/issues"
   },
-  "files": ["dist/**/*", "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md"],
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md"
+  ],
   "devDependencies": {
     "@eslint/js": "9.33.0",
     "@types/jest": "29.5.14",
@@ -90,8 +97,13 @@
     "npm": ">=8.0.0"
   },
   "lint-staged": {
-    "src/**/*.{ts,js}": ["eslint --fix", "prettier --write"],
-    "src/**/*.{json,md}": ["prettier --write"]
+    "src/**/*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "publishConfig": {
     "access": "public",
