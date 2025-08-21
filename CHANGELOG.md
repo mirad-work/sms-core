@@ -9,11 +9,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- **BREAKING CHANGE**: Package name changed from `mirad-sms-core` to `@mirad/sms-core` to align with
-  Mirad Work Organization's scoped package naming convention
+- **BREAKING CHANGE**: Package name changed from `mirad-sms-core` to `@mirad-work/sms-core` to align
+  with Mirad Work Organization's scoped package naming convention
   - Update your imports from `import { ... } from "mirad-sms-core"` to
-    `import { ... } from "@mirad/sms-core"`
-  - Update your package.json dependencies from `"mirad-sms-core"` to `"@mirad/sms-core"`
+    `import { ... } from "@mirad-work/sms-core"`
+  - Update your package.json dependencies from `"mirad-sms-core"` to `"@mirad-work/sms-core"`
   - This change affects all existing installations and requires manual migration
   - See [Migration Guide](MIGRATION.md) for detailed instructions
 
@@ -80,7 +80,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Version History
 
-- **0.2.0** - Package name change to scoped package (@mirad/sms-core) - **BREAKING CHANGE**
+- **0.2.0** - Package name change to scoped package (@mirad-work/sms-core) - **BREAKING CHANGE**
 - **0.1.1** - Initial release with core functionality and multiple provider support
 
 ## Contributing

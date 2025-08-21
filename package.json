@@ -1,5 +1,5 @@
 {
-  "name": "@mirad/sms-core",
+  "name": "@mirad-work/sms-core",
   "version": "0.2.0",
   "description": "A framework-agnostic TypeScript SMS service core with provider abstraction for Iranian SMS providers",
   "main": "dist/index.js",
@@ -54,7 +54,7 @@
   ],
   "author": {
     "name": "Mirad Work Organization",
-    "email": "opensource@mirad.work"
+    "email": "opensource@mirad-work.work"
   },
   "license": "MIT",
   "homepage": "https://github.com/mirad-work/sms-core#readme",

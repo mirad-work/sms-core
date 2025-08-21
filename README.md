@@ -3,7 +3,7 @@
 A powerful, framework-agnostic TypeScript SMS service library for Iranian SMS providers. Built with
 production-ready standards.
 
-[![npm version](https://badge.fury.io/js/@mirad/sms-core.svg)](https://badge.fury.io/js/@mirad/sms-core)
+[![npm version](https://badge.fury.io/js/@mirad-work/sms-core.svg)](https://badge.fury.io/js/@mirad-work/sms-core)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
@@ -32,19 +32,19 @@ production-ready standards.
 ## 🚀 Quick Start
 
 > **⚠️ Breaking Change Notice**: The package name has changed from `mirad-sms-core` to
-> `@mirad/sms-core`. If you're upgrading from a previous version, please see our
+> `@mirad-work/sms-core`. If you're upgrading from a previous version, please see our
 > [Migration Guide](MIGRATION.md) for detailed instructions.
 
 ### Installation
 
 ```bash
-npm install @mirad/sms-core
+npm install @mirad-work/sms-core
 ```
 
 ### Basic Usage
 
 ```typescript
-import { SmsService, SmsConfigManager } from "@mirad/sms-core";
+import { SmsService, SmsConfigManager } from "@mirad-work/sms-core";
 
 // Using factory method (recommended)
 const smsService = SmsConfigManager.createKavenegarConfig({
@@ -94,7 +94,7 @@ SMS_MELIPAYAMAK_LINE_NUMBER=your-line-number
 ### Using Environment Configuration
 
 ```typescript
-import { SmsService, SmsConfigManager } from "@mirad/sms-core";
+import { SmsService, SmsConfigManager } from "@mirad-work/sms-core";
 
 const config = SmsConfigManager.fromEnvironment();
 const smsService = new SmsService(config);
@@ -103,7 +103,7 @@ const smsService = new SmsService(config);
 ### Manual Configuration
 
 ```typescript
-import { SmsService, DriverType } from "@mirad/sms-core";
+import { SmsService, DriverType } from "@mirad-work/sms-core";
 
 const smsService = new SmsService({
   defaultDriver: DriverType.KAVENEGAR,
@@ -186,7 +186,7 @@ try {
 
 ```typescript
 import express from "express";
-import { createKavenegarSmsService } from "@mirad/sms-core";
+import { createKavenegarSmsService } from "@mirad-work/sms-core";
 
 const app = express();
 const smsService = createKavenegarSmsService({
@@ -213,7 +213,7 @@ app.post("/send-otp", async (req, res) => {
 
 ```typescript
 import { Injectable } from "@nestjs/common";
-import { SmsService, SmsConfigManager } from "@mirad/sms-core";
+import { SmsService, SmsConfigManager } from "@mirad-work/sms-core";
 
 @Injectable()
 export class NotificationService {
@@ -238,7 +238,7 @@ export class NotificationService {
 ### Using Mock Driver
 
 ```typescript
-import { createMockSmsService } from "@mirad/sms-core";
+import { createMockSmsService } from "@mirad-work/sms-core";
 
 // For testing - always succeeds
 const mockService = createMockSmsService();
@@ -257,7 +257,7 @@ const slowMockService = createMockSmsService({
 ### Jest Testing Example
 
 ```typescript
-import { SmsService, SmsConfigManager } from "@mirad/sms-core";
+import { SmsService, SmsConfigManager } from "@mirad-work/sms-core";
 
 describe("SMS Service", () => {
   let smsService: SmsService;
@@ -306,7 +306,7 @@ process.env.NODE_ENV = "development";
 ### Custom HTTP Client
 
 ```typescript
-import { SmsService, HttpClient } from "@mirad/sms-core";
+import { SmsService, HttpClient } from "@mirad-work/sms-core";
 
 const customHttpClient = new HttpClient(15000); // 15 second timeout
 const smsService = new SmsService(config, undefined, customHttpClient);
@@ -418,7 +418,8 @@ If you encounter any issues or need support:
 ### Connect With Us
 
 - 🌐 [Website](https://mirad.work) - Learn more about Mirad Work Organization
-- 📧 [Open Source Team](mailto:opensource@mirad.work) - Questions about our open source projects
+- 📧 [Open Source Team](mailto:opensource@mirad-work.work) - Questions about our open source
+  projects
 
 ---
 

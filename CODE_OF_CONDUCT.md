@@ -49,8 +49,9 @@ officially representing the community in public spaces.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community
-leaders responsible for enforcement at [opensource@mirad.work](mailto:opensource@mirad.work). All
-complaints will be reviewed and investigated promptly and fairly.
+leaders responsible for enforcement at
+[opensource@mirad-work.work](mailto:opensource@mirad-work.work). All complaints will be reviewed and
+investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the reporter of any
 incident.

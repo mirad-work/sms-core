@@ -17,7 +17,7 @@ assignees: ""
 **Code Example** If your question involves code, please provide a minimal example:
 
 ```typescript
-import { SmsService } from "@mirad/sms-core";
+import { SmsService } from "@mirad-work/sms-core";
 
 // Your code here
 ```

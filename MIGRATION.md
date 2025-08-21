@@ -1,14 +1,14 @@
-# Migration Guide: mirad-sms-core → @mirad/sms-core
+# Migration Guide: mirad-sms-core → @mirad-work/sms-core
 
 ## Overview
 
-The package name has been changed from `mirad-sms-core` to `@mirad/sms-core` to align with Mirad
-Work Organization's scoped package naming convention. This is a **breaking change** that requires
-manual migration for all existing installations.
+The package name has been changed from `mirad-sms-core` to `@mirad-work/sms-core` to align with
+Mirad Work Organization's scoped package naming convention. This is a **breaking change** that
+requires manual migration for all existing installations.
 
 ## What Changed
 
-- **Package Name**: `mirad-sms-core` → `@mirad/sms-core`
+- **Package Name**: `mirad-sms-core` → `@mirad-work/sms-core`
 - **Import Statements**: All import statements need to be updated
 - **Package.json Dependencies**: Dependencies need to be updated
 - **Installation Commands**: npm install commands need to be updated
@@ -32,7 +32,7 @@ manual migration for all existing installations.
 ```json
 {
   "dependencies": {
-    "@mirad/sms-core": "^0.1.6"
+    "@mirad-work/sms-core": "^0.1.6"
   }
 }
 ```
@@ -50,9 +50,9 @@ import { DriverType } from "mirad-sms-core";
 **After:**
 
 ```typescript
-import { SmsService, SmsConfigManager } from "@mirad/sms-core";
-import { createKavenegarSmsService } from "@mirad/sms-core";
-import { DriverType } from "@mirad/sms-core";
+import { SmsService, SmsConfigManager } from "@mirad-work/sms-core";
+import { createKavenegarSmsService } from "@mirad-work/sms-core";
+import { DriverType } from "@mirad-work/sms-core";
 ```
 
 ### 3. Update Installation Commands
@@ -68,9 +68,9 @@ pnpm add mirad-sms-core
 **After:**
 
 ```bash
-npm install @mirad/sms-core
-yarn add @mirad/sms-core
-pnpm add @mirad/sms-core
+npm install @mirad-work/sms-core
+yarn add @mirad-work/sms-core
+pnpm add @mirad-work/sms-core
 ```
 
 ### 4. Update CI/CD Pipelines
@@ -88,7 +88,7 @@ If you have CI/CD pipelines that install this package, update them:
 
 ```yaml
 - name: Install dependencies
-  run: npm install @mirad/sms-core
+  run: npm install @mirad-work/sms-core
 ```
 
 ## Automated Migration Script
@@ -99,14 +99,14 @@ You can use this script to automatically update your codebase:
 #!/bin/bash
 
 # Update package.json
-sed -i 's/"mirad-sms-core"/"@mirad\/sms-core"/g' package.json
+sed -i 's/"mirad-sms-core"/"@mirad-work\/sms-core"/g' package.json
 
 # Update TypeScript/JavaScript files
-find . -name "*.ts" -o -name "*.js" -o -name "*.tsx" -o -name "*.jsx" | xargs sed -i 's/from "mirad-sms-core"/from "@mirad\/sms-core"/g'
-find . -name "*.ts" -o -name "*.js" -o -name "*.tsx" -o -name "*.jsx" | xargs sed -i 's/require("mirad-sms-core")/require("@mirad\/sms-core")/g'
+find . -name "*.ts" -o -name "*.js" -o -name "*.tsx" -o -name "*.jsx" | xargs sed -i 's/from "mirad-sms-core"/from "@mirad-work\/sms-core"/g'
+find . -name "*.ts" -o -name "*.js" -o -name "*.tsx" -o -name "*.jsx" | xargs sed -i 's/require("mirad-sms-core")/require("@mirad-work\/sms-core")/g'
 
 # Update documentation files
-find . -name "*.md" | xargs sed -i 's/mirad-sms-core/@mirad\/sms-core/g'
+find . -name "*.md" | xargs sed -i 's/mirad-sms-core/@mirad-work\/sms-core/g'
 
 echo "Migration completed! Please review the changes and test your application."
 ```
@@ -143,7 +143,7 @@ If you encounter any issues during migration:
 
 ## Timeline
 
-- **Immediate**: New package `@mirad/sms-core` is available
+- **Immediate**: New package `@mirad-work/sms-core` is available
 - **Ongoing**: Old package `mirad-sms-core` will continue to work
 - **Future**: Old package may be deprecated in a future major version
 

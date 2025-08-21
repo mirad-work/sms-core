@@ -45,7 +45,7 @@ export abstract class BaseSmsDriver implements ISmsDriver {
     return {
       "Content-Type": "application/json",
       Accept: "application/json",
-      "User-Agent": "@mirad/sms-core",
+      "User-Agent": "@mirad-work/sms-core",
       ...additionalHeaders,
     };
   }
