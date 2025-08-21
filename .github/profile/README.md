@@ -15,7 +15,7 @@ different platforms and environments.
 A powerful, framework-agnostic TypeScript SMS service library for Iranian SMS providers. Built with
 production-ready standards.
 
-[![npm version](https://badge.fury.io/js/mirad-sms-core.svg)](https://badge.fury.io/js/mirad-sms-core)
+[![npm version](https://badge.fury.io/js/@mirad/sms-core.svg)](https://badge.fury.io/js/@mirad/sms-core)
 [![GitHub stars](https://img.shields.io/github/stars/mirad-work/sms-core.svg?style=social&label=Star)](https://github.com/mirad-work/sms-core)
 
 **Features:**

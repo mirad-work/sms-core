@@ -22,7 +22,7 @@ them:
 
 ```typescript
 // Example of how the new feature might be used
-import { SmsService } from "mirad-sms-core";
+import { SmsService } from "@mirad/sms-core";
 
 // Your proposed API or usage pattern
 ```

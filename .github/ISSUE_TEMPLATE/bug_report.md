@@ -35,7 +35,7 @@ assignees: ""
 
 ```typescript
 // Please provide a minimal code example that reproduces the issue
-import { SmsService } from "mirad-sms-core";
+import { SmsService } from "@mirad/sms-core";
 
 const smsService = new SmsService(config);
 // ... your code here

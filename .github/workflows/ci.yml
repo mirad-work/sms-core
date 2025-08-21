@@ -118,7 +118,7 @@ jobs:
             ## Installation
             
             ```bash
-            npm install mirad-sms-core@${{ steps.get-version.outputs.version }}
+            npm install @mirad/sms-core@${{ steps.get-version.outputs.version }}
             ```
           draft: false
           prerelease: false
