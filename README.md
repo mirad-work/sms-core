@@ -3,7 +3,7 @@
 A powerful, framework-agnostic TypeScript SMS service library for Iranian SMS providers. Built with
 production-ready standards.
 
-[![npm version](https://badge.fury.io/js/@mirad-work/sms-core.svg)](https://badge.fury.io/js/@mirad-work/sms-core)
+[![npm version](https://badge.fury.io/js/@mirad-work%2Fsms-core.svg)](https://badge.fury.io/js/@mirad-work%2Fsms-core)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
