@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-11-30
+
+### Added
+
+- **IPPanel Driver**: Added full support for IPPanel SMS provider
+  - Pattern-based SMS sending via `/api/v1/sms/pattern/normal/send` endpoint
+  - API key authentication via header
+  - Support for dynamic variables in templates
+  - Comprehensive error handling for IPPanel API responses
+  - Environment variable configuration support (`SMS_IPPANEL_API_KEY`, `SMS_IPPANEL_LINE_NUMBER`, `SMS_IPPANEL_URL`)
+  - Factory method `createIppanelSmsService()` for easy setup
+  - Full TypeScript type definitions
+
+### Changed
+
+- Updated driver factory to support IPPanel driver type
+- Extended configuration manager to handle IPPanel settings
+
 ## [0.2.0] - 2025-01-27
 
 ### Changed
@@ -25,6 +43,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Support for Kavenegar SMS provider
 - Support for SMS.ir provider
 - Support for Melipayamak provider
+- Support for IPPanel SMS provider
 - Mock driver for testing
 - TypeScript-first architecture
 - Comprehensive error handling
@@ -80,6 +99,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Version History
 
+- **0.4.0** - Added IPPanel SMS provider support
 - **0.2.0** - Package name change to scoped package (@mirad-work/sms-core) - **BREAKING CHANGE**
 - **0.1.1** - Initial release with core functionality and multiple provider support
 

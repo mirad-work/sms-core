@@ -1,6 +1,6 @@
 {
   "name": "@mirad-work/sms-core",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A framework-agnostic TypeScript SMS service core with provider abstraction for Iranian SMS providers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,6 +42,7 @@
     "smsir",
     "sms.ir",
     "melipayamak",
+    "ippanel",
     "framework-agnostic",
     "otp",
     "verification",

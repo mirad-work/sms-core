@@ -27,6 +27,7 @@ production-ready standards.
 - **Kavenegar** - Full support for verification APIs
 - **SMS.ir** - Complete integration with template messaging
 - **Melipayamak** - Pattern-based SMS support
+- **IPPanel** - Pattern-based SMS with dynamic variables
 - **Mock Driver** - For testing and development
 
 ## 🚀 Quick Start
@@ -89,7 +90,14 @@ SMS_SMSIR_LINE_NUMBER=your-line-number
 # Melipayamak Configuration
 SMS_MELIPAYAMAK_API_KEY=your-melipayamak-api-key
 SMS_MELIPAYAMAK_LINE_NUMBER=your-line-number
+
+# IPPanel Configuration
+SMS_IPPANEL_API_KEY=your-ippanel-api-key
+SMS_IPPANEL_LINE_NUMBER=your-line-number
+SMS_IPPANEL_URL=https://api2.ippanel.com/
 ```
+<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>
+read_file
 
 ### Using Environment Configuration
 
