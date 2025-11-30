@@ -25,6 +25,7 @@ export {
   IKavenegarConfig,
   ISmsIrConfig,
   IMelipayamakConfig,
+  IIppanelConfig,
   IMockConfig,
 } from "./interfaces/sms-config.interface";
 
@@ -59,6 +60,7 @@ export { BaseSmsDriver } from "./drivers/base-driver";
 export { KavenegarDriver } from "./drivers/kavenegar-driver";
 export { SmsIrDriver } from "./drivers/smsir-driver";
 export { MelipayamakDriver } from "./drivers/melipayamak-driver";
+export { IppanelDriver } from "./drivers/ippanel-driver";
 export { MockDriver } from "./drivers/mock-driver";
 
 // Convenience factory functions
@@ -92,3 +94,9 @@ export const createMelipayamakSmsService = (options: {
   url?: string;
 }): SmsService =>
   new SmsService(SmsConfigManager.createMelipayamakConfig(options));
+
+export const createIppanelSmsService = (options: {
+  apiKey: string;
+  lineNumber: string;
+  url?: string;
+}): SmsService => new SmsService(SmsConfigManager.createIppanelConfig(options));

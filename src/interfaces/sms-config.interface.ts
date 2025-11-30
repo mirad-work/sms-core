@@ -28,6 +28,15 @@ export interface IMelipayamakConfig {
 }
 
 /**
+ * IPPanel provider configuration
+ */
+export interface IIppanelConfig {
+  url: string;
+  apiKey: string;
+  lineNumber: string;
+}
+
+/**
  * Mock driver configuration (for testing)
  */
 export interface IMockConfig {
@@ -48,6 +57,7 @@ export interface ISmsConfig {
     kavenegar?: IKavenegarConfig;
     smsir?: ISmsIrConfig;
     melipayamak?: IMelipayamakConfig;
+    ippanel?: IIppanelConfig;
     mock?: IMockConfig;
   };
 }

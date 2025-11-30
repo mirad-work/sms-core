@@ -109,6 +109,11 @@ export class SmsDriverFactory {
         );
       }
 
+      case DriverType.IPPANEL: {
+        const { IppanelDriver } = require("../drivers/ippanel-driver");
+        return new IppanelDriver(this.config.drivers.ippanel!, this.httpClient);
+      }
+
       case DriverType.MOCK: {
         const { MockDriver } = require("../drivers/mock-driver");
         return new MockDriver(this.config.drivers.mock || {}, this.httpClient);
@@ -161,6 +166,7 @@ export class SmsDriverFactory {
       case DriverType.KAVENEGAR:
       case DriverType.SMSIR:
       case DriverType.MELIPAYAMAK:
+      case DriverType.IPPANEL:
         this.validateBasicDriverConfig(driverConfig, driverType);
         break;
 

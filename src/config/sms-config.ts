@@ -56,6 +56,15 @@ export class SmsConfigManager {
       };
     }
 
+    // IPPanel configuration
+    if (process.env.SMS_IPPANEL_URL || process.env.SMS_IPPANEL_API_KEY) {
+      config.drivers.ippanel = {
+        url: process.env.SMS_IPPANEL_URL || "https://api2.ippanel.com/",
+        apiKey: process.env.SMS_IPPANEL_API_KEY || "",
+        lineNumber: process.env.SMS_IPPANEL_LINE_NUMBER || "",
+      };
+    }
+
     // Mock driver configuration (for testing)
     if (
       process.env.NODE_ENV === "test" ||
@@ -169,6 +178,27 @@ export class SmsConfigManager {
   }
 
   /**
+   * Create configuration for IPPanel
+   */
+  static createIppanelConfig(options: {
+    apiKey: string;
+    lineNumber: string;
+    url?: string;
+  }): ISmsConfig {
+    return {
+      defaultDriver: DriverType.IPPANEL,
+      timeout: 10000,
+      drivers: {
+        ippanel: {
+          url: options.url || "https://api2.ippanel.com/",
+          apiKey: options.apiKey,
+          lineNumber: options.lineNumber,
+        },
+      },
+    };
+  }
+
+  /**
    * Merge multiple configurations
    */
   static merge(...configs: Partial<ISmsConfig>[]): ISmsConfig {
@@ -222,7 +252,8 @@ export class SmsConfigManager {
       switch (driverType as DriverType) {
         case DriverType.KAVENEGAR:
         case DriverType.SMSIR:
-        case DriverType.MELIPAYAMAK: {
+        case DriverType.MELIPAYAMAK:
+        case DriverType.IPPANEL: {
           const basicDriverConfig = driverConfig as unknown;
           const config = basicDriverConfig as {
             url?: string;
@@ -272,6 +303,11 @@ SMS_SMSIR_LINE_NUMBER=your-line-number
 SMS_MELIPAYAMAK_URL=https://console.melipayamak.com/api/
 SMS_MELIPAYAMAK_API_KEY=your-melipayamak-api-key
 SMS_MELIPAYAMAK_LINE_NUMBER=your-line-number
+
+# IPPanel Configuration
+SMS_IPPANEL_URL=https://api2.ippanel.com/
+SMS_IPPANEL_API_KEY=your-ippanel-api-key
+SMS_IPPANEL_LINE_NUMBER=your-line-number
 
 # Mock Driver Configuration (for testing)
 SMS_USE_MOCK=false

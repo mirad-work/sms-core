@@ -5,6 +5,7 @@ export enum DriverType {
   KAVENEGAR = "kavenegar",
   SMSIR = "smsir",
   MELIPAYAMAK = "melipayamak",
+  IPPANEL = "ippanel",
   MOCK = "mock", // For testing purposes
 }
 
