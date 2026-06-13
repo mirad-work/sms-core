@@ -23,8 +23,8 @@ export interface ISmsIrConfig {
  */
 export interface IMelipayamakConfig {
   url: string;
-  apiKey: string;
-  lineNumber: string;
+  username: string;
+  password: string;
 }
 
 /**

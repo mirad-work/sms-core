@@ -29,6 +29,7 @@ module.exports = [
         clearInterval: "readonly",
         AbortController: "readonly",
         URL: "readonly",
+        URLSearchParams: "readonly",
       },
     },
     plugins: {

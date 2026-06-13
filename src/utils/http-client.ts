@@ -36,7 +36,7 @@ export class HttpClient implements IHttpClient {
         Accept: "application/json",
         ...headers,
       },
-      body: data ? JSON.stringify(data) : undefined,
+      body: this.serializeRequestBody(data, headers),
     };
 
     // Create AbortController for timeout
@@ -120,6 +120,40 @@ export class HttpClient implements IHttpClient {
       url,
       ...config,
     });
+  }
+
+  /**
+   * Serialize request body based on content type
+   */
+  private serializeRequestBody(
+    data: unknown,
+    headers: Record<string, string>,
+  ): string | undefined {
+    if (data === undefined || data === null) {
+      return undefined;
+    }
+
+    const contentType = headers["Content-Type"] || "";
+
+    if (data instanceof URLSearchParams) {
+      return data.toString();
+    }
+
+    if (contentType.includes("application/x-www-form-urlencoded")) {
+      if (typeof data === "string") {
+        return data;
+      }
+
+      if (typeof data === "object") {
+        return new URLSearchParams(data as Record<string, string>).toString();
+      }
+    }
+
+    if (typeof data === "string") {
+      return data;
+    }
+
+    return JSON.stringify(data);
   }
 
   /**

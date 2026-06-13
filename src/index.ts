@@ -89,8 +89,8 @@ export const createSmsIrSmsService = (options: {
 }): SmsService => new SmsService(SmsConfigManager.createSmsIrConfig(options));
 
 export const createMelipayamakSmsService = (options: {
-  apiKey: string;
-  lineNumber: string;
+  username: string;
+  password: string;
   url?: string;
 }): SmsService =>
   new SmsService(SmsConfigManager.createMelipayamakConfig(options));

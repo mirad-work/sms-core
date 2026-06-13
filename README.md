@@ -88,8 +88,9 @@ SMS_SMSIR_API_KEY=your-smsir-api-key
 SMS_SMSIR_LINE_NUMBER=your-line-number
 
 # Melipayamak Configuration
-SMS_MELIPAYAMAK_API_KEY=your-melipayamak-api-key
-SMS_MELIPAYAMAK_LINE_NUMBER=your-line-number
+SMS_MELIPAYAMAK_URL=https://rest.payamak-panel.com/api/SendSMS/
+SMS_MELIPAYAMAK_USERNAME=your-melipayamak-username
+SMS_MELIPAYAMAK_PASSWORD=your-melipayamak-password-or-api-key
 
 # IPPanel Configuration
 SMS_IPPANEL_API_KEY=your-ippanel-api-key

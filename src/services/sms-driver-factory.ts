@@ -165,9 +165,12 @@ export class SmsDriverFactory {
     switch (driverType) {
       case DriverType.KAVENEGAR:
       case DriverType.SMSIR:
-      case DriverType.MELIPAYAMAK:
       case DriverType.IPPANEL:
         this.validateBasicDriverConfig(driverConfig, driverType);
+        break;
+
+      case DriverType.MELIPAYAMAK:
+        this.validateMelipayamakDriverConfig(driverConfig);
         break;
 
       case DriverType.MOCK:
@@ -209,6 +212,37 @@ export class SmsDriverFactory {
     if (!config.lineNumber || typeof config.lineNumber !== "string") {
       throw new ConfigurationException(
         `Driver '${driverType}' requires a valid lineNumber`,
+      );
+    }
+  }
+
+  /**
+   * Validate Melipayamak driver configuration (username/password REST API)
+   */
+  private validateMelipayamakDriverConfig(driverConfig: unknown): void {
+    if (!driverConfig || typeof driverConfig !== "object") {
+      throw new ConfigurationException(
+        "Driver 'melipayamak' configuration must be an object",
+      );
+    }
+
+    const config = driverConfig as Record<string, unknown>;
+
+    if (!config.url || typeof config.url !== "string") {
+      throw new ConfigurationException(
+        "Driver 'melipayamak' requires a valid url",
+      );
+    }
+
+    if (!config.username || typeof config.username !== "string") {
+      throw new ConfigurationException(
+        "Driver 'melipayamak' requires a valid username",
+      );
+    }
+
+    if (!config.password || typeof config.password !== "string") {
+      throw new ConfigurationException(
+        "Driver 'melipayamak' requires a valid password",
       );
     }
   }

@@ -45,14 +45,19 @@ export class SmsConfigManager {
     // Melipayamak configuration
     if (
       process.env.SMS_MELIPAYAMAK_URL ||
+      process.env.SMS_MELIPAYAMAK_USERNAME ||
+      process.env.SMS_MELIPAYAMAK_PASSWORD ||
       process.env.SMS_MELIPAYAMAK_API_KEY
     ) {
       config.drivers.melipayamak = {
         url:
           process.env.SMS_MELIPAYAMAK_URL ||
-          "https://console.melipayamak.com/api/",
-        apiKey: process.env.SMS_MELIPAYAMAK_API_KEY || "",
-        lineNumber: process.env.SMS_MELIPAYAMAK_LINE_NUMBER || "",
+          "https://rest.payamak-panel.com/api/SendSMS/",
+        username: process.env.SMS_MELIPAYAMAK_USERNAME || "",
+        password:
+          process.env.SMS_MELIPAYAMAK_PASSWORD ||
+          process.env.SMS_MELIPAYAMAK_API_KEY ||
+          "",
       };
     }
 
@@ -160,8 +165,8 @@ export class SmsConfigManager {
    * Create configuration for Melipayamak
    */
   static createMelipayamakConfig(options: {
-    apiKey: string;
-    lineNumber: string;
+    username: string;
+    password: string;
     url?: string;
   }): ISmsConfig {
     return {
@@ -169,9 +174,9 @@ export class SmsConfigManager {
       timeout: 10000,
       drivers: {
         melipayamak: {
-          url: options.url || "https://console.melipayamak.com/api/",
-          apiKey: options.apiKey,
-          lineNumber: options.lineNumber,
+          url: options.url || "https://rest.payamak-panel.com/api/SendSMS/",
+          username: options.username,
+          password: options.password,
         },
       },
     };
@@ -252,7 +257,6 @@ export class SmsConfigManager {
       switch (driverType as DriverType) {
         case DriverType.KAVENEGAR:
         case DriverType.SMSIR:
-        case DriverType.MELIPAYAMAK:
         case DriverType.IPPANEL: {
           const basicDriverConfig = driverConfig as unknown;
           const config = basicDriverConfig as {
@@ -263,6 +267,24 @@ export class SmsConfigManager {
           if (!config.url || !config.apiKey || !config.lineNumber) {
             throw new ConfigurationException(
               `Driver '${driverType}' requires url, apiKey, and lineNumber`,
+            );
+          }
+          break;
+        }
+
+        case DriverType.MELIPAYAMAK: {
+          const melipayamakConfig = driverConfig as {
+            url?: string;
+            username?: string;
+            password?: string;
+          };
+          if (
+            !melipayamakConfig.url ||
+            !melipayamakConfig.username ||
+            !melipayamakConfig.password
+          ) {
+            throw new ConfigurationException(
+              "Driver 'melipayamak' requires url, username, and password",
             );
           }
           break;
@@ -300,9 +322,9 @@ SMS_SMSIR_API_KEY=your-smsir-api-key
 SMS_SMSIR_LINE_NUMBER=your-line-number
 
 # Melipayamak Configuration
-SMS_MELIPAYAMAK_URL=https://console.melipayamak.com/api/
-SMS_MELIPAYAMAK_API_KEY=your-melipayamak-api-key
-SMS_MELIPAYAMAK_LINE_NUMBER=your-line-number
+SMS_MELIPAYAMAK_URL=https://rest.payamak-panel.com/api/SendSMS/
+SMS_MELIPAYAMAK_USERNAME=your-melipayamak-username
+SMS_MELIPAYAMAK_PASSWORD=your-melipayamak-password-or-api-key
 
 # IPPanel Configuration
 SMS_IPPANEL_URL=https://api2.ippanel.com/
