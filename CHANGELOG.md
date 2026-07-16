@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-07-16
+
+### Fixed
+
+- **Malformed timeout configuration no longer breaks every request**: a non-numeric `SMS_TIMEOUT`
+  (e.g. `SMS_TIMEOUT=fast`) parsed to `NaN`, and because `setTimeout(fn, NaN)` fires immediately,
+  every SMS request was aborted before it could be sent. `SmsConfigManager.fromEnvironment()` now
+  falls back to the default (`10000` ms) for absent, empty, non-numeric, or non-positive values.
+- `SMS_MOCK_DELAY` is parsed the same way, falling back to `0` instead of `NaN`.
+- `HttpClient` now rejects non-finite timeouts. The previous `timeout <= 0` guard did not catch
+  `NaN` (`NaN <= 0` is `false`), so an invalid timeout was accepted and silently aborted requests.
+  Both the constructor and per-request `timeout` overrides are validated.
+
+### Added
+
+- `./package.json` subpath to the `exports` map, so tooling can read package metadata.
+
+## [0.5.0] - 2026-06-13
+
+### Changed
+
+- **Melipayamak Driver**: migrated to the REST `BaseServiceNumber` API for shared-service template
+  messages, replacing the previous SOAP-based integration
+  - Uses `username`/`password` credentials against `https://rest.payamak-panel.com/api/SendSMS/`
+  - Tokens are sent as semicolon-separated template variables
+  - Provider status codes are mapped to descriptive error messages
+
 ## [0.4.0] - 2025-11-30
 
 ### Added
@@ -99,6 +126,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Version History
 
+- **0.5.1** - Fixed malformed timeout configuration silently aborting every request
+- **0.5.0** - Migrated Melipayamak driver to the REST BaseServiceNumber API
 - **0.4.0** - Added IPPanel SMS provider support
 - **0.2.0** - Package name change to scoped package (@mirad-work/sms-core) - **BREAKING CHANGE**
 - **0.1.1** - Initial release with core functionality and multiple provider support

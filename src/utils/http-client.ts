@@ -10,7 +10,7 @@ export class HttpClient implements IHttpClient {
   private readonly defaultTimeout: number;
 
   constructor(timeout = 10000) {
-    if (timeout <= 0) {
+    if (!Number.isFinite(timeout) || timeout <= 0) {
       throw new Error("Timeout must be a positive number");
     }
     this.defaultTimeout = timeout;
@@ -166,6 +166,13 @@ export class HttpClient implements IHttpClient {
 
     if (!config.method) {
       throw new Error("HTTP method is required");
+    }
+
+    if (
+      config.timeout !== undefined &&
+      (!Number.isFinite(config.timeout) || config.timeout <= 0)
+    ) {
+      throw new Error("Timeout must be a positive number");
     }
 
     try {

@@ -3,6 +3,7 @@ import {
   SmsConfigManager,
   DriverType,
   MessageValidationException,
+  HttpClient,
 } from "../src/index";
 
 describe("SmsService", () => {
@@ -133,5 +134,75 @@ describe("SmsConfigManager", () => {
       delete process.env.SMS_USE_MOCK;
       delete process.env.SMS_MOCK_DELAY;
     });
+
+    it("should fall back to the default timeout when SMS_TIMEOUT is not a number", () => {
+      process.env.SMS_TIMEOUT = "ten seconds";
+
+      const config = SmsConfigManager.fromEnvironment();
+
+      expect(config.timeout).toBe(10000);
+
+      delete process.env.SMS_TIMEOUT;
+    });
+
+    it("should fall back to the default timeout when SMS_TIMEOUT is empty or non-positive", () => {
+      process.env.SMS_TIMEOUT = "";
+      expect(SmsConfigManager.fromEnvironment().timeout).toBe(10000);
+
+      process.env.SMS_TIMEOUT = "0";
+      expect(SmsConfigManager.fromEnvironment().timeout).toBe(10000);
+
+      process.env.SMS_TIMEOUT = "-1";
+      expect(SmsConfigManager.fromEnvironment().timeout).toBe(10000);
+
+      delete process.env.SMS_TIMEOUT;
+    });
+
+    it("should honour a valid SMS_TIMEOUT", () => {
+      process.env.SMS_TIMEOUT = "2500";
+
+      expect(SmsConfigManager.fromEnvironment().timeout).toBe(2500);
+
+      delete process.env.SMS_TIMEOUT;
+    });
+
+    it("should fall back to a zero mock delay when SMS_MOCK_DELAY is not a number", () => {
+      process.env.SMS_USE_MOCK = "true";
+      process.env.SMS_MOCK_DELAY = "soon";
+
+      const config = SmsConfigManager.fromEnvironment();
+
+      expect(config.drivers.mock?.delay).toBe(0);
+
+      delete process.env.SMS_USE_MOCK;
+      delete process.env.SMS_MOCK_DELAY;
+    });
+  });
+});
+
+describe("HttpClient", () => {
+  it("should reject a non-numeric timeout instead of aborting every request", () => {
+    expect(() => new HttpClient(NaN)).toThrow(
+      "Timeout must be a positive number",
+    );
+  });
+
+  it("should reject a non-positive timeout", () => {
+    expect(() => new HttpClient(0)).toThrow("Timeout must be a positive number");
+    expect(() => new HttpClient(-1)).toThrow(
+      "Timeout must be a positive number",
+    );
+  });
+
+  it("should reject a non-numeric per-request timeout", async () => {
+    const client = new HttpClient(10000);
+
+    await expect(
+      client.get("https://example.com/", { timeout: NaN }),
+    ).rejects.toThrow("Timeout must be a positive number");
+  });
+
+  it("should accept a valid timeout", () => {
+    expect(() => new HttpClient(5000)).not.toThrow();
   });
 });

@@ -11,12 +11,41 @@ import {
  */
 export class SmsConfigManager {
   /**
+   * Parse a numeric environment variable, falling back to a default when the
+   * value is absent or not a usable number.
+   *
+   * Without this, a malformed value (e.g. SMS_TIMEOUT=fast) yields NaN, which
+   * silently aborts every request because setTimeout(fn, NaN) fires immediately.
+   */
+  private static parseNumber(
+    value: string | undefined,
+    fallback: number,
+    { allowZero = false }: { allowZero?: boolean } = {},
+  ): number {
+    if (value === undefined || value.trim() === "") {
+      return fallback;
+    }
+
+    const parsed = Number(value);
+
+    if (!Number.isFinite(parsed) || parsed < 0) {
+      return fallback;
+    }
+
+    if (parsed === 0 && !allowZero) {
+      return fallback;
+    }
+
+    return parsed;
+  }
+
+  /**
    * Create configuration from environment variables
    */
   static fromEnvironment(): ISmsConfig {
     const defaultDriver =
       (process.env.SMS_DEFAULT_DRIVER as DriverType) || DriverType.KAVENEGAR;
-    const timeout = parseInt(process.env.SMS_TIMEOUT || "10000", 10);
+    const timeout = this.parseNumber(process.env.SMS_TIMEOUT, 10000);
 
     const config: ISmsConfig = {
       defaultDriver,
@@ -77,7 +106,9 @@ export class SmsConfigManager {
     ) {
       config.drivers.mock = {
         shouldFail: process.env.SMS_MOCK_SHOULD_FAIL === "true",
-        delay: parseInt(process.env.SMS_MOCK_DELAY || "0", 10),
+        delay: this.parseNumber(process.env.SMS_MOCK_DELAY, 0, {
+          allowZero: true,
+        }),
       };
     }
 
