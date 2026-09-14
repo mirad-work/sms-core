@@ -86,3 +86,5 @@ build/
 
 # Test output
 test-results/
+
+graphify-out/
