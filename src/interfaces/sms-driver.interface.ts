@@ -1,4 +1,10 @@
 import { DriverType } from "../types/driver-types";
+import {
+  ISmsProviderAttempt,
+  ISmsProviderMessageOverride,
+  SmsFailureKind,
+  SmsSubmissionStatus,
+} from "./sms-fallback.interface";
 
 /**
  * SMS message structure
@@ -16,6 +22,12 @@ export interface ISmsMessage {
   tokens?: Record<string, unknown> | unknown[];
   /** Specific driver to use (optional, will use default from config) */
   driver?: DriverType;
+  /** Correlation ID. A UUID is generated when omitted. */
+  requestId?: string;
+  /** Override the service-level fallback switch for this message. */
+  fallback?: boolean;
+  /** Provider-specific template, token, or sender mappings. */
+  providerOverrides?: Partial<Record<DriverType, ISmsProviderMessageOverride>>;
 }
 
 /**
@@ -32,6 +44,16 @@ export interface ISmsResponse {
   error?: string;
   /** Error code if the operation failed */
   errorCode?: string;
+  /** Correlation ID shared by every attempt. */
+  requestId?: string;
+  /** Driver that produced the final result. */
+  driver?: DriverType;
+  /** Submission certainty; accepted does not mean delivered. */
+  submissionStatus?: SmsSubmissionStatus;
+  /** Normalized failure category used by the fallback safety policy. */
+  failureKind?: SmsFailureKind;
+  /** Sanitized attempt history, populated when fallback is enabled. */
+  attempts?: ISmsProviderAttempt[];
 }
 
 /**

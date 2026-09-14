@@ -1,4 +1,5 @@
 import { DriverType } from "../types/driver-types";
+import { ISmsFallbackConfig } from "./sms-fallback.interface";
 
 /**
  * Kavenegar provider configuration
@@ -6,7 +7,7 @@ import { DriverType } from "../types/driver-types";
 export interface IKavenegarConfig {
   url: string;
   apiKey: string;
-  lineNumber: string;
+  lineNumber?: string;
 }
 
 /**
@@ -15,7 +16,7 @@ export interface IKavenegarConfig {
 export interface ISmsIrConfig {
   url: string;
   apiKey: string;
-  lineNumber: string;
+  lineNumber?: string;
 }
 
 /**
@@ -42,6 +43,7 @@ export interface IIppanelConfig {
 export interface IMockConfig {
   shouldFail?: boolean;
   delay?: number;
+  failureMode?: "rejected" | "timeout" | "network" | "unexpected";
 }
 
 /**
@@ -52,6 +54,8 @@ export interface ISmsConfig {
   defaultDriver: DriverType;
   /** Global timeout for HTTP requests (in milliseconds) */
   timeout?: number;
+  /** Explicit opt-in multi-provider submission fallback policy. */
+  fallback?: ISmsFallbackConfig;
   /** Provider-specific configurations */
   drivers: {
     kavenegar?: IKavenegarConfig;

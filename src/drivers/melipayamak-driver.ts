@@ -99,9 +99,8 @@ export class MelipayamakDriver extends BaseSmsDriver {
 
       return this.processMelipayamakResponse(response.data);
     } catch (error) {
-      const err = error as Error;
-      this.log("error", "SMS verify failed", { error: err.message });
-      return this.createErrorResponse(err.message, "VERIFY_FAILED");
+      this.log("error", "Melipayamak submission failed");
+      return this.createExceptionResponse(error);
     }
   }
 
@@ -183,6 +182,7 @@ export class MelipayamakDriver extends BaseSmsDriver {
       errorMessage,
       `MELIPAYAMAK_${errorCode || response.RetStatus}`,
       response,
+      errorCode === "-18" ? "recipient" : "provider_rejection",
     );
   }
 

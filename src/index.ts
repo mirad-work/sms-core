@@ -21,6 +21,18 @@ export {
 } from "./interfaces/sms-driver.interface";
 
 export {
+  ISmsFallbackConfig,
+  ISmsFallbackObserver,
+  ISmsFallbackResolver,
+  ISmsFallbackResolverContext,
+  ISmsProviderAttempt,
+  ISmsProviderMessageOverride,
+  SmsAttemptOutcome,
+  SmsFailureKind,
+  SmsSubmissionStatus,
+} from "./interfaces/sms-fallback.interface";
+
+export {
   ISmsConfig,
   IKavenegarConfig,
   ISmsIrConfig,
@@ -53,6 +65,7 @@ export {
   MessageValidationException,
   RateLimitException,
   HttpException,
+  SmsTransportException,
 } from "./exceptions/sms-exceptions";
 
 // Drivers
@@ -73,18 +86,19 @@ export const createSmsService = (config: ISmsConfig) => new SmsService(config);
 export const createMockSmsService = (options?: {
   shouldFail?: boolean;
   delay?: number;
+  failureMode?: "rejected" | "timeout" | "network" | "unexpected";
 }) => new SmsService(SmsConfigManager.createForTesting(options));
 
 export const createKavenegarSmsService = (options: {
   apiKey: string;
-  lineNumber: string;
+  lineNumber?: string;
   url?: string;
 }): SmsService =>
   new SmsService(SmsConfigManager.createKavenegarConfig(options));
 
 export const createSmsIrSmsService = (options: {
   apiKey: string;
-  lineNumber: string;
+  lineNumber?: string;
   url?: string;
 }): SmsService => new SmsService(SmsConfigManager.createSmsIrConfig(options));
 

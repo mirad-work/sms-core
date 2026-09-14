@@ -4,6 +4,7 @@ import {
   DriverType,
   MessageValidationException,
   HttpClient,
+  SmsDriverFactory,
 } from "../src/index";
 
 describe("SmsService", () => {
@@ -41,7 +42,7 @@ describe("SmsService", () => {
         smsService.verify({
           to: "+989123456789",
           tokens: { code: "12345" },
-        })
+        }),
       ).rejects.toThrow(MessageValidationException);
     });
 
@@ -50,7 +51,7 @@ describe("SmsService", () => {
         smsService.verify({
           to: "+989123456789",
           template: "verification-code",
-        })
+        }),
       ).rejects.toThrow(MessageValidationException);
     });
   });
@@ -74,7 +75,7 @@ describe("SmsService", () => {
       const message = smsService.createVerificationMessage(
         "+989123456789",
         "verification-code",
-        { code: "12345" }
+        { code: "12345" },
       );
 
       expect(message.to).toBe("+989123456789");
@@ -166,6 +167,26 @@ describe("SmsConfigManager", () => {
       delete process.env.SMS_TIMEOUT;
     });
 
+    it("should parse and de-duplicate a valid fallback order", () => {
+      process.env.SMS_FALLBACK_ENABLED = "true";
+      process.env.SMS_FALLBACK_ORDER =
+        "smsir, melipayamak,smsir,unknown,ippanel";
+
+      const config = SmsConfigManager.fromEnvironment();
+
+      expect(config.fallback).toEqual({
+        enabled: true,
+        order: [DriverType.SMSIR, DriverType.MELIPAYAMAK, DriverType.IPPANEL],
+      });
+
+      delete process.env.SMS_FALLBACK_ENABLED;
+      delete process.env.SMS_FALLBACK_ORDER;
+    });
+
+    it("keeps fallback disabled by default", () => {
+      expect(SmsConfigManager.fromEnvironment().fallback?.enabled).toBe(false);
+    });
+
     it("should fall back to a zero mock delay when SMS_MOCK_DELAY is not a number", () => {
       process.env.SMS_USE_MOCK = "true";
       process.env.SMS_MOCK_DELAY = "soon";
@@ -188,7 +209,9 @@ describe("HttpClient", () => {
   });
 
   it("should reject a non-positive timeout", () => {
-    expect(() => new HttpClient(0)).toThrow("Timeout must be a positive number");
+    expect(() => new HttpClient(0)).toThrow(
+      "Timeout must be a positive number",
+    );
     expect(() => new HttpClient(-1)).toThrow(
       "Timeout must be a positive number",
     );
@@ -204,5 +227,30 @@ describe("HttpClient", () => {
 
   it("should accept a valid timeout", () => {
     expect(() => new HttpClient(5000)).not.toThrow();
+  });
+});
+
+describe("SmsDriverFactory configuration", () => {
+  it("accepts verification-only Kavenegar without a line number", () => {
+    const factory = new SmsDriverFactory({
+      defaultDriver: DriverType.KAVENEGAR,
+      drivers: {
+        kavenegar: { url: "https://example.test", apiKey: "key" },
+      },
+    });
+
+    expect(factory.isDriverAvailable(DriverType.KAVENEGAR)).toBe(true);
+  });
+
+  it("filters invalid provider configurations from available drivers", () => {
+    const factory = new SmsDriverFactory({
+      defaultDriver: DriverType.MOCK,
+      drivers: {
+        mock: {},
+        smsir: { url: "https://example.test", apiKey: "" },
+      },
+    });
+
+    expect(factory.getAvailableDrivers()).toEqual([DriverType.MOCK]);
   });
 });

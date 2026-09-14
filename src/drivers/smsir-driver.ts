@@ -78,9 +78,8 @@ export class SmsIrDriver extends BaseSmsDriver {
 
       return this.processSmsIrResponse(response.data);
     } catch (error) {
-      const err = error as Error;
-      this.log("error", "SMS verify failed", { error: err.message });
-      return this.createErrorResponse(err.message, "VERIFY_FAILED");
+      this.log("error", "SMS.ir submission failed");
+      return this.createExceptionResponse(error);
     }
   }
 

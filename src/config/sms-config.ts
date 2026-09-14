@@ -50,6 +50,10 @@ export class SmsConfigManager {
     const config: ISmsConfig = {
       defaultDriver,
       timeout,
+      fallback: {
+        enabled: process.env.SMS_FALLBACK_ENABLED === "true",
+        order: this.parseDriverOrder(process.env.SMS_FALLBACK_ORDER),
+      },
       drivers: {},
     };
 
@@ -115,6 +119,22 @@ export class SmsConfigManager {
     return config;
   }
 
+  private static parseDriverOrder(value: string | undefined): DriverType[] {
+    if (!value) return [];
+
+    const valid = new Set(Object.values(DriverType));
+    return Array.from(
+      new Set(
+        value
+          .split(",")
+          .map((driver) => driver.trim())
+          .filter((driver): driver is DriverType =>
+            valid.has(driver as DriverType),
+          ),
+      ),
+    );
+  }
+
   /**
    * Create configuration with validation
    */
@@ -122,6 +142,7 @@ export class SmsConfigManager {
     const fullConfig: ISmsConfig = {
       defaultDriver: config.defaultDriver || DriverType.KAVENEGAR,
       timeout: config.timeout || 10000,
+      fallback: config.fallback,
       drivers: config.drivers || {},
     };
 
@@ -136,15 +157,18 @@ export class SmsConfigManager {
     options: {
       shouldFail?: boolean;
       delay?: number;
+      failureMode?: "rejected" | "timeout" | "network" | "unexpected";
     } = {},
   ): ISmsConfig {
     return {
       defaultDriver: DriverType.MOCK,
       timeout: 5000,
+      fallback: { enabled: false, order: [] },
       drivers: {
         mock: {
           shouldFail: options.shouldFail || false,
           delay: options.delay || 0,
+          failureMode: options.failureMode,
         },
       },
     };
@@ -155,7 +179,7 @@ export class SmsConfigManager {
    */
   static createKavenegarConfig(options: {
     apiKey: string;
-    lineNumber: string;
+    lineNumber?: string;
     url?: string;
   }): ISmsConfig {
     return {
@@ -176,7 +200,7 @@ export class SmsConfigManager {
    */
   static createSmsIrConfig(options: {
     apiKey: string;
-    lineNumber: string;
+    lineNumber?: string;
     url?: string;
   }): ISmsConfig {
     return {
@@ -250,6 +274,9 @@ export class SmsConfigManager {
       }
       if (config.timeout) {
         mergedConfig.timeout = config.timeout;
+      }
+      if (config.fallback) {
+        mergedConfig.fallback = config.fallback;
       }
       if (config.drivers) {
         Object.assign(mergedConfig.drivers, config.drivers);

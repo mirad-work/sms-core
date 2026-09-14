@@ -60,7 +60,10 @@ export class SmsDriverFactory {
 
     Object.keys(this.config.drivers).forEach((key) => {
       const driverKey = key as keyof typeof this.config.drivers;
-      if (this.config.drivers[driverKey]) {
+      if (
+        this.config.drivers[driverKey] &&
+        this.isDriverAvailable(key as DriverType)
+      ) {
         available.push(key as DriverType);
       }
     });
@@ -165,8 +168,11 @@ export class SmsDriverFactory {
     switch (driverType) {
       case DriverType.KAVENEGAR:
       case DriverType.SMSIR:
+        this.validateBasicDriverConfig(driverConfig, driverType, false);
+        break;
+
       case DriverType.IPPANEL:
-        this.validateBasicDriverConfig(driverConfig, driverType);
+        this.validateBasicDriverConfig(driverConfig, driverType, true);
         break;
 
       case DriverType.MELIPAYAMAK:
@@ -188,6 +194,7 @@ export class SmsDriverFactory {
   private validateBasicDriverConfig(
     driverConfig: unknown,
     driverType: DriverType,
+    requireLineNumber: boolean,
   ): void {
     if (!driverConfig || typeof driverConfig !== "object") {
       throw new ConfigurationException(
@@ -209,7 +216,10 @@ export class SmsDriverFactory {
       );
     }
 
-    if (!config.lineNumber || typeof config.lineNumber !== "string") {
+    if (
+      requireLineNumber &&
+      (!config.lineNumber || typeof config.lineNumber !== "string")
+    ) {
       throw new ConfigurationException(
         `Driver '${driverType}' requires a valid lineNumber`,
       );

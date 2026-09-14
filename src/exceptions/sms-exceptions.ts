@@ -37,6 +37,22 @@ export class SmsDriverException extends SmsException {
   }
 }
 
+/** A request may have reached the provider, so automatically retrying can duplicate an SMS. */
+export class SmsTransportException extends SmsDriverException {
+  constructor(
+    message: string,
+    public readonly kind: "timeout" | "network",
+    originalError?: unknown,
+  ) {
+    super(
+      message,
+      originalError,
+      kind === "timeout" ? "HTTP_TIMEOUT" : "NETWORK_ERROR",
+    );
+    this.name = "SmsTransportException";
+  }
+}
+
 /**
  * Exception thrown when configuration is invalid
  */

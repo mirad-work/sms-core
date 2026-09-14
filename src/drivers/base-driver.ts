@@ -8,7 +8,9 @@ import {
   SmsDriverException,
   MessageValidationException,
   HttpException,
+  SmsTransportException,
 } from "../exceptions/sms-exceptions";
+import { SmsFailureKind } from "../interfaces/sms-fallback.interface";
 import { HttpResponse } from "../types/driver-types";
 
 /**
@@ -134,7 +136,10 @@ export abstract class BaseSmsDriver implements ISmsDriver {
 
       return response;
     } catch (error) {
-      if (error instanceof HttpException) {
+      if (
+        error instanceof HttpException ||
+        error instanceof SmsTransportException
+      ) {
         throw error;
       }
 
@@ -176,6 +181,7 @@ export abstract class BaseSmsDriver implements ISmsDriver {
       success: true,
       messageId,
       data,
+      submissionStatus: "accepted",
     };
   }
 
@@ -186,13 +192,56 @@ export abstract class BaseSmsDriver implements ISmsDriver {
     error: string,
     errorCode?: string,
     data?: unknown,
+    failureKind: SmsFailureKind = "provider_rejection",
+    submissionStatus: "rejected" | "unknown" = "rejected",
   ): ISmsResponse {
     return {
       success: false,
       error,
       errorCode,
       data,
+      failureKind,
+      submissionStatus,
     };
+  }
+
+  /** Convert thrown failures into a safe response while preserving retry certainty. */
+  protected createExceptionResponse(error: unknown): ISmsResponse {
+    if (error instanceof HttpException) {
+      return this.createErrorResponse(
+        error.message,
+        `HTTP_${error._status || "ERROR"}`,
+        error._originalError,
+        "http",
+      );
+    }
+
+    if (error instanceof SmsTransportException) {
+      return this.createErrorResponse(
+        error.message,
+        error._code,
+        undefined,
+        error.kind,
+        "unknown",
+      );
+    }
+
+    if (error instanceof MessageValidationException) {
+      return this.createErrorResponse(
+        error.message,
+        error._code,
+        undefined,
+        "validation",
+      );
+    }
+
+    return this.createErrorResponse(
+      "Unexpected driver failure",
+      "DRIVER_ERROR",
+      undefined,
+      "unexpected",
+      "unknown",
+    );
   }
 
   /**

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Added
+
+- Opt-in ordered fallback across Kavenegar, SMS.ir, Melipayamak, IPPanel, and Mock.
+- Submission certainty, sanitized attempts, provider overrides, correlation IDs, and policy hooks.
+- Protocol and fallback-policy test suites.
+
+### Changed
+
+- Failures now distinguish HTTP rejection from ambiguous timeout/network outcomes.
+- Ambiguous outcomes stop fallback to avoid duplicates; confirmed invalid recipients are terminal.
+- Kavenegar and SMS.ir verification no longer require an unused line number.
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -41,7 +55,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - API key authentication via header
   - Support for dynamic variables in templates
   - Comprehensive error handling for IPPanel API responses
-  - Environment variable configuration support (`SMS_IPPANEL_API_KEY`, `SMS_IPPANEL_LINE_NUMBER`, `SMS_IPPANEL_URL`)
+  - Environment variable configuration support (`SMS_IPPANEL_API_KEY`, `SMS_IPPANEL_LINE_NUMBER`,
+    `SMS_IPPANEL_URL`)
   - Factory method `createIppanelSmsService()` for easy setup
   - Full TypeScript type definitions
 

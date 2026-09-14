@@ -55,8 +55,34 @@ export class MockDriver extends BaseSmsDriver {
       await this.delay(this.mockConfig.delay);
     }
 
-    // Simulate failure if configured
-    if (this.mockConfig.shouldFail) {
+    const failureMode =
+      this.mockConfig.failureMode ||
+      (this.mockConfig.shouldFail ? "rejected" : undefined);
+
+    if (failureMode === "timeout" || failureMode === "network") {
+      return this.createErrorResponse(
+        failureMode === "timeout"
+          ? "Mock request timed out"
+          : "Mock network failure",
+        failureMode === "timeout" ? "HTTP_TIMEOUT" : "NETWORK_ERROR",
+        undefined,
+        failureMode,
+        "unknown",
+      );
+    }
+
+    if (failureMode === "unexpected") {
+      return this.createErrorResponse(
+        "Mock unexpected failure",
+        "DRIVER_ERROR",
+        undefined,
+        "unexpected",
+        "unknown",
+      );
+    }
+
+    // Simulate a provider-confirmed rejection if configured
+    if (failureMode === "rejected") {
       return this.createErrorResponse(
         "Mock driver configured to fail",
         "MOCK_FAILURE",

@@ -1,6 +1,7 @@
 import fetch, { RequestInit } from "node-fetch";
 import { IHttpClient } from "../interfaces/http-client.interface";
 import { HttpRequestConfig, HttpResponse } from "../types/driver-types";
+import { SmsTransportException } from "../exceptions/sms-exceptions";
 
 /**
  * Framework-agnostic HTTP client implementation using node-fetch
@@ -67,10 +68,18 @@ export class HttpClient implements IHttpClient {
 
       const err = error as Error;
       if (err.name === "AbortError") {
-        throw new Error(`Request timeout after ${timeout}ms`);
+        throw new SmsTransportException(
+          `Request timed out after ${timeout}ms`,
+          "timeout",
+          error,
+        );
       }
 
-      throw new Error(`HTTP request failed: ${err.message}`);
+      throw new SmsTransportException(
+        "Network request failed",
+        "network",
+        error,
+      );
     }
   }
 
