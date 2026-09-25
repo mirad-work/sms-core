@@ -1,6 +1,6 @@
 {
   "name": "@mirad-work/sms-core",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A framework-agnostic TypeScript SMS service core with provider abstraction for Iranian SMS providers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,7 @@
     "validate": "npm run typecheck && npm run lint:check && npm run test:ci",
     "prepublishOnly": "npm run validate && npm run build",
     "preversion": "npm run validate",
-    "postversion": "git push origin main && git push origin --tags",
+    "postversion": "git push origin main && git push origin --tags && git push github main && git push github --tags",
     "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,js,json,md}\"",
     "ci": "npm run validate && npm run build",

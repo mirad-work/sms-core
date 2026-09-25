@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2026-09-25
+
+### Fixed
+
+- Release workflow is idempotent and can be re-run for an existing tag or GitHub release.
+- 0.6.0 was tagged and released on GitHub but never published to npm; 0.6.1 is the first npm release
+  of the fallback feature set and is otherwise identical to 0.6.0.
+
 ## [0.6.0] - 2026-09-14
 
 ### Added
