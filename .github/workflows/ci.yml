@@ -153,6 +153,9 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Update npm for trusted publishing (OIDC) support
+        run: npm install -g npm@latest && npm --version
+
       - name: Install dependencies
         run: npm ci
 
@@ -171,6 +174,8 @@ jobs:
           if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version >/dev/null 2>&1; then
             echo "$PACKAGE_NAME@$PACKAGE_VERSION is already published; continuing."
           else
+            # Auth: npm >= 11.5 uses GitHub OIDC trusted publishing automatically when a
+            # trusted publisher is configured on npmjs.com; otherwise NPM_TOKEN is used.
             npm publish --provenance --access public
           fi
         env:
